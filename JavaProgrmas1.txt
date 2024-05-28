@@ -23,3 +23,133 @@ public class TowerOfHanoi {
         solveHanoi(n, 'A', 'C', 'B'); // Names of rods: A is source, C is destination, B is auxiliary
     }
 }
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+public class TowerOfHanoi {
+
+    public static void solveHanoi(int n, char source, char auxiliary, char destination) {
+        if (n == 1) {
+            System.out.println("Move disk 1 from " + source + " to " + destination);
+            return;
+        }
+
+        solveHanoi(n - 1, source, destination, auxiliary);
+        System.out.println("Move disk " + n + " from " + source + " to " + destination);
+        solveHanoi(n - 1, auxiliary, source, destination);
+    }
+
+    public static void main(String[] args) {
+        int n = 3;
+        solveHanoi(n, 'A', 'B', 'C');
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------
+
+task 2:
+
+public class TravelingSalesmanProblem {
+
+    public static int findMinCost(int[][] graph) {
+        int n = graph.length;
+        int[][] dp = new int[1 << n][n];
+
+        for (int[] row : dp) {
+            Arrays.fill(row, Integer.MAX_VALUE / 2); // Initialize with a large value to avoid overflow
+        }
+
+        dp[1][0] = 0; // Starting city is 0
+
+        for (int mask = 1; mask < (1 << n); mask += 2) {
+            for (int i = 1; i < n; i++) {
+                if ((mask & (1 << i)) != 0) {
+                    for (int j = 0; j < n; j++) {
+                        if ((mask & (1 << j)) != 0) {
+                            dp[mask][i] = Math.min(dp[mask][i], dp[mask ^ (1 << i)][j] + graph[j][i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        int minCost = Integer.MAX_VALUE;
+        for (int i = 1; i < n; i++) {
+            minCost = Math.min(minCost, dp[(1 << n) - 1][i] + graph[i][0]);
+        }
+
+        return minCost;
+    }
+
+    public static void main(String[] args) {
+        int[][] graph = {
+            {0, 10, 15, 20},
+            {10, 0, 35, 25},
+            {15, 35, 0, 30},
+            {20, 25, 30, 0}
+        };
+        System.out.println("Minimum cost to visit all cities: " + findMinCost(graph));
+    }
+}
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+implementation:   
+
+com.computationalalgorithms;
+ 
+public class TravelingSalesman {
+	 // Function to solve the TSP using Dynamic Programming
+    public static int tsp(int[][] dist) {
+        int n = dist.length;
+        int VISITED_ALL = (1 << n) - 1;
+        int[][] dp = new int[1 << n][n];
+ 
+        // Initialize dp array with a large value
+        for (int i = 0; i < (1 << n); i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = Integer.MAX_VALUE;
+            }
+        }
+ 
+        // Base case: starting from the first city
+        dp[1][0] = 0;
+ 
+        // Iterate over all subsets of cities
+        for (int mask = 1; mask < (1 << n); mask++) {
+            for (int i = 0; i < n; i++) {
+                // Continue if the ith city is not in the subset represented by mask
+                if ((mask & (1 << i)) == 0) continue;
+ 
+                // Try to find the minimum cost path to city i
+                for (int j = 0; j < n; j++) {
+                    if ((mask & (1 << j)) != 0 && i != j) {
+                        dp[mask][i] = Math.min(dp[mask][i], dp[mask ^ (1 << i)][j] + dist[j][i]);
+                    }
+                }
+            }
+        }
+ 
+        // Find the minimum cost to visit all cities and return to the starting city
+        int minCost = Integer.MAX_VALUE;
+        for (int i = 1; i < n; i++) {
+            minCost = Math.min(minCost, dp[VISITED_ALL][i] + dist[i][0]);
+        }
+ 
+        return minCost;
+    }
+ 
+    public static void main(String[] args) {
+        int[][] dist = {
+            {0, 10, 15, 20},
+            {10, 0, 35, 25},
+            {15, 35, 0, 30},
+            {20, 25, 30, 0}
+        };
+ 
+        System.out.println("The minimum cost is " + tsp(dist));
+    }
+}
