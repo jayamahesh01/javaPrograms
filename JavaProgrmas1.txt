@@ -361,3 +361,129 @@ public class LCS {
         System.out.println(lcs(text1, text2));  // Output: 3
     }
 }
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+knapsackmycode:
+
+import java.util.Arrays;
+public class FractionalKnapsack {
+	static int temp,temp1;
+	
+	
+	public static int  fractionalKnapsack(int weight[],int values[], int maxWeight,int n)
+	{
+		
+	      int low=0,high=values.length-1;
+		
+		   quickSort(values,low,high,weight);
+		     
+		   int compare=0,sum=0;
+		   
+		compare=0;
+		   
+		   for(int i=n;i>=0;i--)
+		   {
+			  //compare=compare+weight[i];
+          
+           if(compare<=maxWeight)
+           {
+        	   if(i!=n)
+        	   {
+        		   
+        	   
+        	   sum=sum+values[i];
+        	  
+                
+           
+        	   }
+        	   if(i==n)
+        		   
+        	   {
+        		   compare=compare+weight[n-1];
+        	   }
+        	   else {
+        		   compare=compare+weight[i-1];
+        	   }
+        	  // compare=compare+weight[i];
+           }
+           
+           else {
+        	   if(i!=0)
+        	   {
+        	     
+        	   compare=compare-weight[i];
+        	   compare=compare+weight[i-1];
+        	   
+        	   }
+        	   
+        	 }
+			   
+		   
+		   }
+		     return sum;
+	}
+	
+	public static void quickSort(int values[],int low,int high,int weight[])
+	{
+		
+		if(low>=high)
+		{
+			return;
+		}
+		int mid=low+(high-low)/2;
+		int pivot=values[mid];
+		int i=low;
+		int j=high;
+		while(i<=j)
+		{
+			while(values[i]<pivot)
+			{
+				i++;
+			}
+			
+			
+			
+			while(values[j]>pivot)
+			{
+				j--;
+			}
+			
+	       if(i<=j)
+	       {
+	    	   temp=values[i];
+	    	   temp1=weight[i];
+	    	   values[i]=values[j];
+	    	   weight[i]=weight[j];
+	    	   values[j]=temp;
+	    	   weight[j]=temp1;
+	    	   
+	    	   i++;
+	    	   j--;
+	    	   
+	       }
+	       
+	       
+	       
+		}
+		
+		quickSort(values,low,j,weight);
+		quickSort(values,i,high,weight);
+		
+}
+	
+	
+	public static void main(String args[])
+	
+{
+      int weight[]=	{1,4,2,6,5,8};
+      int values[]= {400,254,978,121,542,70};
+      int maxWeight=20;
+      int n=weight.length;
+      
+       System.out.println("MaxValue of maxCapacity of knapsack: "+fractionalKnapsack(weight,values,maxWeight,n));
+		
+}
+	
+}
+
