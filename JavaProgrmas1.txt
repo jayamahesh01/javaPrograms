@@ -552,4 +552,169 @@ public static void lcs(String a , String compare)
 }
 	
 }
+---------------------------------------------------------------------------------------------------------------------------------------------------------
 
+[12:23 PM] Maria (Unverified)
+package com.commoncode;
+ 
+class FirstClass{
+	public  FirstClass()
+	{super();
+		System.out.println("1");
+	}
+}
+class SecondClass extends FirstClass{
+	public  SecondClass()
+	{
+		super();
+		System.out.println("2");
+	}
+}
+class ThirdClass extends SecondClass{
+	public  ThirdClass()
+	{
+		System.out.println("3");
+	}
+}
+public class Main {
+ 
+	public static void main(String[] args) {
+		ThirdClass t=new ThirdClass();
+ 
+	}
+ 
+}
+ 
+[12:23 PM] Maria (Unverified)
+aaaaa
+[12:23 PM] Maria (Unverified)
+package com.commoncode;
+ 
+ 
+import java.util.Arrays;
+ 
+public class NestedforLoopEx {
+ 
+	public static void main(String[] args) {
+		int[] array= new int[5];
+		for(int j=5;j>0;j--)
+		{			array[5-j]=j;
+			}
+			Arrays.fill(array,1,5,8);
+			
+			for(int j=0;j<5;j++)
+			{
+				System.out.print(array[j]);
+		}
+		
+	}
+ 
+}
+[12:23 PM] Maria (Unverified)
+bbbbb
+[12:24 PM] Maria (Unverified)
+package com.commoncode;
+ 
+ 
+interface An{
+	default void show() {
+		System.out.println("A");
+	}
+}
+interface Bn{
+	default void show() {
+		System.out.println("B");
+	}
+}
+class C implements An,Bn{
+ 
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		An.super.show();
+	}
+	
+}
+ 
+public class Test2 {
+ 
+	public static void main(String[] args) {
+ 
+C c=new C();
+c.show();
+ 
+	}
+ 
+}
+ 
+[12:24 PM] Maria (Unverified)
+cccc
+[12:24 PM] Maria (Unverified)
+package com.commoncode;
+ 
+public class Test6 {
+	public static void main(String[] args) {
+		int x=-4;
+		System.out.println(x>>1);
+		int y=4;
+		System.out.println(y>>1);;
+ 
+	}
+}
+ 
+[12:24 PM] Maria (Unverified)
+dddd
+[12:24 PM] Maria (Unverified)
+package com.commoncode;
+ 
+ 
+class Base{
+	static String s="Super class";
+public	Base(){
+		System.out.printf("1");
+	}
+}
+ 
+public class Derived extends Base {
+	public Derived() {
+		super(); //1 2
+		System.out.printf("2");
+			
+	}
+	
+	public static void main(String[] args) {
+		Derived d=new Derived();
+	}
+}
+[12:24 PM] Maria (Unverified)
+eeee
+[12:24 PM] Maria (Unverified)
+package com.commoncode;
+ 
+//private - default,protected,public
+ 
+class A{
+	int i;
+	void display() {
+		System.out.println(i);
+	
+	}
+}
+class B extends A{
+	int j;
+		void  display() {
+		System.out.println(j);
+	
+	}
+}
+public class InheritanceDemo {
+ 
+	public static void main(String[] args) {
+	
+B obj=new B();
+obj.i=1;
+obj.j=2;
+obj.display();
+	}
+ 
+}
