@@ -776,5 +776,47 @@ public class KnightsTour {
     }
 }
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+    public class OptimalBinarySearchTree {
+    public static void main(String[] args) {
+        double[] keys = {10, 12, 20};
+        double[] freq = {34, 8, 50};
+        int n = keys.length;
+        System.out.println("Cost of Optimal BST is " + optimalSearchTree(keys, freq, n));
+    }
+
+    private static double optimalSearchTree(double[] keys, double[] freq, int n) {
+        double[][] cost = new double[n + 1][n + 1];
+
+        for (int i = 0; i < n; i++) {
+            cost[i][i] = freq[i];
+        }
+
+        for (int length = 2; length <= n; length++) {
+            for (int i = 0; i <= n - length + 1; i++) {
+                int j = i + length - 1;
+                cost[i][j] = Double.MAX_VALUE;
+                double sum = getSum(freq, i, j);
+
+                for (int k = i; k <= j; k++) {
+                    double temp = ((k > i) ? cost[i][k - 1] : 0) +
+                                  ((k < j) ? cost[k + 1][j] : 0) + sum;
+                    if (temp < cost[i][j]) {
+                        cost[i][j] = temp;
+                    }
+                }
+            }
+        }
+        return cost[0][n - 1];
+    }
+
+    private static double getSum(double[] freq, int i, int j) {
+        double sum = 0;
+        for (int k = i; k <= j; k++) {
+            sum += freq[k];
+        }
+        return sum;
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 
