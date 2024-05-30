@@ -718,3 +718,63 @@ obj.display();
 	}
  
 }
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+public class KnightsTour {
+    private static final int N = 8;
+
+    private static boolean isSafe(int x, int y, int[][] board) {
+        return (x >= 0 && x < N && y >= 0 && y < N && board[x][y] == -1);
+    }
+
+    private static boolean solveKnightsTour(int[][] board, int x, int y, int moveCount, int[] xMove, int[] yMove) {
+        if (moveCount == N * N) {
+            return true;
+        }
+
+        for (int i = 0; i < 8; i++) {
+            int nextX = x + xMove[i];
+            int nextY = y + yMove[i];
+            if (isSafe(nextX, nextY, board)) {
+                board[nextX][nextY] = moveCount;
+                if (solveKnightsTour(board, nextX, nextY, moveCount + 1, xMove, yMove)) {
+                    return true;
+                } else {
+                    board[nextX][nextY] = -1; // backtrack
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int[][] board = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                board[i][j] = -1; // Initialize all cells as unvisited
+            }
+        }
+
+        int[] xMove = {2, 1, -1, -2, -2, -1, 1, 2};
+        int[] yMove = {1, 2, 2, 1, -1, -2, -2, -1};
+
+        int startX = 0, startY = 0; // Starting position of the knight
+        board[startX][startY] = 0; // Mark the starting cell as visited
+
+        if (solveKnightsTour(board, startX, startY, 1, xMove, yMove)) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    System.out.print(board[i][j] + " ");
+                }
+                System.out.println();
+            }
+        } else {
+            System.out.println("No solution exists.");
+        }
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
