@@ -484,6 +484,72 @@ public class FractionalKnapsack {
        System.out.println("MaxValue of maxCapacity of knapsack: "+fractionalKnapsack(weight,values,maxWeight,n));
 		
 }
+---------------------------------------------------------------------------------------------------
+LCS implementation:
+
+class LCS{
+    
+
+public static void lcs(String a , String compare)
+{
+    int i=0,j=0,count=0,x=0,k=0,h=0;
+    int n=compare.length()-1,temp=0,ref=0;
+   while(h<=compare.length()-1)
+   {
+    while(i<=n)
+    {
+        
+        while(j<=a.length()-1)
+        {
+           
+            
+           if( compare.charAt(i)==a.charAt(j) )
+           {
+               
+               count+=1;
+               temp+=1;
+                k=j;
+               System.out.print(a.charAt(j));
+           }
+          
+           if(temp>0)
+           {
+               j=a.length();
+           }
+           j++;
+           
+        }
+        i++;
+        j=k+1;
+        temp=0;
+    }
+    System.out.print(" ");
+      if(ref<count)
+      {
+          ref=count;
+      }
+      
+    //System.out.print( "      " + "count:"+count);
+   // System.out.println("\n");
+    h++;
+    i=h;
+    j=0;
+    count=0;
+   }
+   System.out.println("\n\n LCS count: "+ref);
+    
+    
+}
+
+    public static void main(String args[])
+    {
+        String a="abcdefghijklm";
+        String compare="dacegfkmi";
+        lcs(a,compare);
+    }
+    
+    
+}
 	
 }
 
