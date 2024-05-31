@@ -1221,4 +1221,132 @@ public class SubsetSumBacktracking {
     }
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------
+MergeSortedLinkedList
 
+class MergeListNode {
+    int val;
+    MergeListNode next;
+
+    MergeListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+public class MergeSortedLinkedList {
+    public static MergeListNode mergeTwoLists(MergeListNode l1, MergeListNode l2) {
+        // Create a dummy node to simplify the merge process
+        MergeListNode dummy = new MergeListNode(-1);
+        MergeListNode current = dummy;
+
+        // Merge the lists while both have nodes remaining
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                current.next = l1;
+                l1 = l1.next;
+            } else {
+                current.next = l2;
+                l2 = l2.next;
+            }
+            current = current.next;
+        }
+
+        // Attach the remaining nodes, if any
+        if (l1 != null) {
+            current.next = l1;
+        } else {
+            current.next = l2;
+        }
+
+        // Return the merged list, skipping the dummy node
+        return dummy.next;
+    }
+
+    public static void printList(MergeListNode head) {
+        MergeListNode current = head;
+        while (current != null) {
+            System.out.print(current.val + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        // Create first sorted linked list: 1 -> 3 -> 5
+        MergeListNode l1 = new MergeListNode(1);
+        l1.next = new MergeListNode(3);
+        l1.next.next = new MergeListNode(5);
+
+        // Create second sorted linked list: 2 -> 4 -> 6
+        MergeListNode l2 = new MergeListNode(2);
+        l2.next = new MergeListNode(4);
+        l2.next.next = new MergeListNode(6);
+
+        // Merge the lists
+        MergeListNode mergedList = mergeTwoLists(l1, l2);
+
+        // Print the merged list
+        System.out.print("Merged List: ");
+        printList(mergedList);
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------------
+
+MiddleElementFind
+
+class MiddleListNode {
+    int val;
+    MiddleListNode next;
+
+    MiddleListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+public class FindMiddleElement {
+    public static MiddleListNode findMiddle(MiddleListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        MiddleListNode slow = head;
+        MiddleListNode fast = head;
+
+        // Move fast pointer twice as fast as the slow pointer
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Slow pointer will be at the middle when fast pointer reaches the end
+        return slow;
+    }
+
+    public static void printList(MiddleListNode head) {
+        MiddleListNode current = head;
+        while (current != null) {
+            System.out.print(current.val + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        // Create a linked list: 1 -> 2 -> 3 -> 4 -> 5
+        MiddleListNode head = new MiddleListNode(1);
+        head.next = new MiddleListNode(2);
+        head.next.next = new MiddleListNode(3);
+        head.next.next.next = new MiddleListNode(4);
+        head.next.next.next.next = new MiddleListNode(5);
+
+        // Print the list
+        System.out.print("Linked List: ");
+        printList(head);
+
+        // Find the middle element
+        MiddleListNode middle = findMiddle(head);
+        System.out.println("Middle Element: " + (middle != null ? middle.val : "List is empty"));
+    }
+}
