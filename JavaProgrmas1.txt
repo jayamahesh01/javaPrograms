@@ -991,3 +991,187 @@ public class NQueenProblem {
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+public class RatInMaze {
+    private static int N = 6;
+
+    public static boolean solveMaze(int[][] maze) {
+        int[][] solution = new int[N][N];
+        if (solveMazeUtil(maze, 0, 0, solution)) {
+            printSolution(solution);
+            return true;
+        }
+        System.out.println("No solution found");
+        return false;
+    }
+
+    private static boolean solveMazeUtil(int[][] maze, int x, int y, int[][] solution) {
+        if (x == N - 1 && y == N - 1 && maze[x][y] == 1) {
+            solution[x][y] = 1;
+            return true;
+        }
+
+        if (isSafe(maze, x, y)) {
+            solution[x][y] = 1;
+
+            if (solveMazeUtil(maze, x + 1, y, solution))
+                return true;
+
+            if (solveMazeUtil(maze, x, y + 1, solution))
+                return true;
+
+            solution[x][y] = 0;
+            return false;
+        }
+
+        return false;
+    }
+
+    private static boolean isSafe(int[][] maze, int x, int y) {
+        return (x >= 0 && x < N && y >= 0 && y < N && maze[x][y] == 1);
+    }
+
+    private static void printSolution(int[][] solution) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                System.out.print(solution[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] maze = {
+            { 1, 0, 0, 0, 0, 0 },
+            { 1, 1, 0, 1, 1, 1 },
+            { 0, 1, 0, 1, 0, 0 },
+            { 1, 1, 1, 1, 0, 1 },
+            { 0, 0, 0, 0, 1, 0 },
+            { 1, 1, 1, 1, 1, 1 }
+        };
+
+        solveMaze(maze);
+    }
+}
+------------------------------------------------------------------------------------------------------------------------
+public class NQueenProblem {
+    final int N = 8;
+
+    boolean solveNQueen(int board[][], int col) {
+        if (col >= N)
+            return true;
+
+        for (int i = 0; i < N; i++) {
+            if (isSafe(board, i, col)) {
+                board[i][col] = 1;
+
+                if (solveNQueen(board, col + 1))
+                    return true;
+
+                board[i][col] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    boolean isSafe(int board[][], int row, int col) {
+        for (int i = 0; i < col; i++)
+            if (board[row][i] == 1)
+                return false;
+
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--)
+            if (board[i][j] == 1)
+                return false;
+
+        for (int i = row, j = col; j >= 0 && i < N; i++, j--)
+            if (board[i][j] == 1)
+                return false;
+
+        return true;
+    }
+
+    void printSolution(int board[][]) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++)
+                System.out.print(" " + board[i][j] + " ");
+            System.out.println();
+        }
+    }
+
+    public static void main(String args[]) {
+        NQueenProblem Queen = new NQueenProblem();
+        int board[][] = new int[Queen.N][Queen.N];
+        if (!Queen.solveNQueen(board, 0)) {
+            System.out.print("Solution does not exist");
+            return;
+        }
+
+        Queen.printSolution(board);
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------
+
+implementation.....
+
+public class KnightsTour {
+	 private static final int[] dx = {2, 1, -1, -2, -2, -1, 1, 2};
+	    private static final int[] dy = {1, 2, 2, 1, -1, -2, -2, -1};
+	    private static final int N = 8;
+ 
+	    public static void main(String[] args) {
+	        solveKnightsTour();
+	    }
+ 
+	    private static void solveKnightsTour() {
+	        int[][] board = new int[N][N];
+ 
+	        // Initialize the board with -1 indicating unvisited squares
+	        for (int i = 0; i < N; i++) {
+	            for (int j = 0; j < N; j++) {
+	                board[i][j] = -1;
+	            }
+	        }
+ 
+	        // Knight starts at the first block
+	        board[0][0] = 0;
+ 
+	        if (solveKTUtil(0, 0, 1, board)) {
+	            printSolution(board);
+	        } else {
+	            System.out.println("Solution does not exist");
+	        }
+	    }
+ 
+	    private static boolean solveKTUtil(int x, int y, int movei, int[][] board) {
+	        if (movei == N * N) {
+	            return true;
+	        }
+ 
+	        for (int k = 0; k < 8; k++) {
+	            int nextX = x + dx[k];
+	            int nextY = y + dy[k];
+	            if (isSafe(nextX, nextY, board)) {
+	                board[nextX][nextY] = movei;
+	                if (solveKTUtil(nextX, nextY, movei + 1, board)) {
+	                    return true;
+	                } else {
+	                    board[nextX][nextY] = -1; // backtracking
+	                }
+	            }
+	        }
+	        return false;
+	    }
+ 
+	    private static boolean isSafe(int x, int y, int[][] board) {
+	        return (x >= 0 && x < N && y >= 0 && y < N && board[x][y] == -1);
+	    }
+ 
+	    private static void printSolution(int[][] board) {
+	        for (int i = 0; i < N; i++) {
+	            for (int j = 0; j < N; j++) {
+	                System.out.printf("%2d ", board[i][j]);
+	            }
+	            System.out.println();
+	        }
+	    }
+}
