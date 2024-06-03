@@ -1664,4 +1664,186 @@ public class ProducerConsumerExample {
         consumerThread.start();
     }
 }
- 
+ ------------------------------------------------------------------------------------------------------------------------
+
+Task1:
+
+public class ThreadExample {
+    public static void main(String[] args) {
+        Thread thread1 = new Thread(new NumberPrinter());
+        Thread thread2 = new Thread(new NumberPrinter());
+
+        thread1.start();
+        thread2.start();
+    }
+}
+
+class NumberPrinter implements Runnable {
+    public void run() {
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(Thread.currentThread().getName() + ": " + i);
+            try {
+                Thread.sleep(1000); // 1-second delay
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------
+
+Task2:
+
+public class ThreadStateExample {
+    public static void main(String[] args) {
+        ThreadStateDemo threadStateDemo = new ThreadStateDemo();
+
+        System.out.println("State after creating thread: " + threadStateDemo.getState());
+        threadStateDemo.start();
+        System.out.println("State after starting thread: " + threadStateDemo.getState());
+
+        try {
+            Thread.sleep(500);
+            synchronized (threadStateDemo) {
+                System.out.println("State after synchronized block: " + threadStateDemo.getState());
+                threadStateDemo.wait(500);
+            }
+            System.out.println("State after wait: " + threadStateDemo.getState());
+
+            threadStateDemo.join();
+            System.out.println("State after join: " + threadStateDemo.getState());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class ThreadStateDemo extends Thread {
+    public void run() {
+        try {
+            synchronized (this) {
+                Thread.sleep(1000);
+            }
+            synchronized (this) {
+                this.notify();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------
+Task3:
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class ProducerConsumerExample {
+    public static void main(String[] args) {
+        Queue<Integer> buffer = new LinkedList<>();
+        int maxSize = 10;
+        Thread producer = new Thread(new Producer(buffer, maxSize), "Producer");
+        Thread consumer = new Thread(new Consumer(buffer), "Consumer");
+
+        producer.start();
+        consumer.start();
+    }
+}
+
+class Producer implements Runnable {
+    private final Queue<Integer> buffer;
+    private final int maxSize;
+
+    public Producer(Queue<Integer> buffer, int maxSize) {
+        this.buffer = buffer;
+        this.maxSize = maxSize;
+    }
+
+    @Override
+    public void run() {
+        int i = 0;
+        while (true) {
+            synchronized (buffer) {
+                while (buffer.size() == maxSize) {
+                    try {
+                        buffer.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                buffer.add(i++);
+                buffer.notifyAll();
+            }
+        }
+    }
+}
+
+class Consumer implements Runnable {
+    private final Queue<Integer> buffer;
+
+    public Consumer(Queue<Integer> buffer) {
+        this.buffer = buffer;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            synchronized (buffer) {
+                while (buffer.isEmpty()) {
+                    try {
+                        buffer.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                buffer.poll();
+                buffer.notifyAll();
+            }
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------
+
+Task4:
+
+public class BankAccountExample {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount();
+
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 10; i++) {
+                account.deposit(100);
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 10; i++) {
+                account.withdraw(50);
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+
+class BankAccount {
+    private int balance = 0;
+
+    public synchronized void deposit(int amount) {
+        balance += amount;
+        System.out.println("Deposited " + amount + ", balance is now " + balance);
+    }
+
+    public synchronized void withdraw(int amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            System.out.println("Withdrew " + amount + ", balance is now " + balance);
+        } else {
+            System.out.println("Not enough balance to withdraw " + amount + ", balance is " + balance);
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------
