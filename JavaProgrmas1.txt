@@ -2271,5 +2271,129 @@ public class FunctionalInterfaceExample {
 }
 
 ------------------------------------------------------------------------------------
+Task1:
+
+public class HelloWorld {
+    public static void printHelloWorld() {
+        System.out.println("Hello World");
+    }
+
+    public static void main(String[] args) {
+        // Using method
+        printHelloWorld();
+
+        // Using lambda expression
+        Runnable helloWorldLambda = () -> System.out.println("Hello World");
+        helloWorldLambda.run();
+    }
+}
+
+---------------------------------------------------------------------
+
+Task 2:
+
+import java.util.function.Function;
+
+// Method to print and return the length of a string
+public class StringLength {
+    public static int printStringLength(String str) {
+        int length = str.length();
+        System.out.println("Length: " + length);
+        return length;
+    }
+
+    public static void main(String[] args) {
+        // Using method
+        int length1 = printStringLength("Hello");
+        System.out.println("Returned Length: " + length1);
+
+        // Using lambda expression
+        Function<String, Integer> stringLengthLambda = str -> {
+            int length = str.length();
+            System.out.println("Length: " + length);
+            return length;
+        };
+        int length2 = stringLengthLambda.apply("Hello");
+        System.out.println("Returned Length: " + length2);
+    }
+}
+
+-------------------------------------------------------------------------------------------
+
+Task3:
+
+import java.util.function.BiFunction;
+
+// Method to print addition of two numbers and return the output
+public class Addition {
+    public static int addNumbers(int a, int b) {
+        int sum = a + b;
+        System.out.println("Sum: " + sum);
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        // Using method
+        int sum1 = addNumbers(5, 3);
+        System.out.println("Returned Sum: " + sum1);
+
+        // Using lambda expression
+        BiFunction<Integer, Integer, Integer> additionLambda = (a, b) -> {
+            int sum = a + b;
+            System.out.println("Sum: " + sum);
+            return sum;
+        };
+        int sum2 = additionLambda.apply(5, 3);
+        System.out.println("Returned Sum: " + sum2);
+    }
+}
+
+
+------------------------------------------------------------------------------------------------------
+implementation
+[3:38 PM] Maria (Unverified)
+package com.functionalprogramming;
+@FunctionalInterface
+interface Interf{
+	public void m1();	
+}
+class Test implements Interf{
+ 
+	@Override
+	public void m1() {
+		System.out.println("Hi I am m1 Method");
+		
+	}
+	
+}
+ 
+public class Demo {
+ 
+	public static void main(String[] args) {
+	Interf i=new Test();
+	i.m1();
+ 
+	}
+ 
+}
+ 
+[3:40 PM] Maria (Unverified)
+package com.functionalprogramming;
+@FunctionalInterface
+interface Interf{
+	public void m1();	
+}
+ 
+public class Demo {
+	public static void main(String[] args) {
+	Interf i=()->System.out.println("Hi I am m1 Method");
+	i.m1();
+ 
+	}
+ 
+}
+ 
+
+
 
 
